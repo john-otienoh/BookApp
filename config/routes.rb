@@ -11,4 +11,14 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  get "/books", to: "books#index"
+  post "/books", to: "books#create"
+  get "/books/:id", to: "books#show"
+  get "/books/new", to: "books#new"
+  get "/books/:id/edit", to: "books#edit"
+  patch "/books/:id", to: "books#update"
+  put "/books/:id", to: "books#update"
+  delete "/books/:id", to: "books#destroy"
+
+  resources :books
 end

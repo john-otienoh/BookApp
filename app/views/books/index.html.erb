@@ -1,5 +1,6 @@
 <h1>Book Lending Library</h1>
-<%= link_to "Add Book", new_book_path %>
+<%= link_to "Add Book", new_book_path %><br/>
+<%= link_to "Login", new_session_path unless authenticated? %>
 <p>Our book catalogue:</p>
 <ul>
     <% @books.each do |book| %>

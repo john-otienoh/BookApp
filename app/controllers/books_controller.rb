@@ -1,14 +1,22 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :set_book, only: %i[ show edit borrow update destroy ]
   allow_unauthenticated_access only: %i[ index show new create edit update destroy]
-
+  # before_action :require_login, only: %i[borrow ]
   def index
     @books = Book.all
+    @users = User.all
   end
 
   def show
+    @users = @book.users
+    @user_books = UserBook.new
   end
-
+  def borrow
+    @user = current_user
+    @user_book = @book.user_books.create(user: @user)
+    @user_book.borrow
+    redirect_to @book, notice: "Book borrowed successfully."
+  end
   def new
     @book = Book.new
   end
@@ -47,4 +55,5 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:title, :author)
     end
+   
 end

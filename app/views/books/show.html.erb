@@ -1,7 +1,30 @@
-<% cache @product do%>
+<% cache @book do%>
     <h1><%= @book.title %></h1>
     <p>Was written by <span style="color: red;"><%= @book.author %></span></p>
 <% end %>
 <%= link_to "Back to Homepage", books_path %>
 <%= link_to "Edit book Details", edit_book_path(@book) %>
 <%= button_to "Delete Book", @book, method: :delete, data: {turbo_confirm: "Are you sure you want to delete"} %>
+<h2>Borrowers</h2>
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <%= user.email_address %>
+      <% user_book = @book.user_books.find_by(user: user) %>
+      <% if user_book.borrowed? %>
+        (Borrowed on <%= user_book.borrowed_at %>)
+        <%= button_to "Return", return_book_path(@book, user_id: user.id), method: :post %>
+      <% else %>
+        (Returned on <%= user_book.returned_at %>)
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Borrow Book</h2>
+<%= form_with url: borrow_book_path(@book), method: :post do |form| %>
+  <%= form.collection_select :user_id, User.all, :id, :email_address, prompt: "Select a user" %>
+  <%= form.submit "Borrow" %>
+<% end %> 
+
+<%= link_to "Back", books_path %>

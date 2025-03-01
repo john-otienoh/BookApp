@@ -13,14 +13,14 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "books#index"
-  # get "/books", to: "books#index"
-  # post "/books", to: "books#create"
-  # get "/books/new", to: "books#new"
-  # get "/books/:id", to: "books#show"
-  # get "/books/:id/edit", to: "books#edit"
-  # patch "/books/:id", to: "books#update"
-  # put "/books/:id", to: "books#update"
-  # delete "/books/:id", to: "books#destroy"
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
-  resources :books
+  resources :books do
+    member do
+      post :borrow
+      post :return
+    end
+  end
 end

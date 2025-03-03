@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit borrow update destroy ]
-  allow_unauthenticated_access only: %i[ index show new create edit update destroy]
+  before_action :set_book, only: %i[ show edit borrow update destroy return]
+  allow_unauthenticated_access only: %i[ index show new create edit update destroy ]
   # before_action :require_login, only: %i[borrow ]
   def index
     @books = Book.all
@@ -12,10 +12,27 @@ class BooksController < ApplicationController
     @user_books = UserBook.new
   end
   def borrow
-    @user = current_user
-    @user_book = @book.user_books.create(user: @user)
-    @user_book.borrow
-    redirect_to @book, notice: "Book borrowed successfully."
+    # @user = current_user
+    # @user_book = @book.user_books.create(user: @user)
+    # @user_book.borrow
+    if @book.borrow(current_user)
+      redirect_to @book, notice: "Book borrowed successfully."
+    else
+      redirect_to @book, alert: "Unable to borrow the book"
+    end
+  end
+  def return
+     if @book.return(current_user)
+      redirect_to @book, notice: "Book returned successfully."
+    else
+      redirect_to @book, alert: "Unable to return the book."
+    # @user = current_user
+    # @user_book = @book.user_books.find_by(user: @user, returned_at: nil)
+    # if @user_book&.return
+    #   redirect_to @book, notice: "Book returned successfully."
+    # else
+    #   redirect_to @book, alert: "No borrowed book found to return."
+    end
   end
   def new
     @book = Book.new

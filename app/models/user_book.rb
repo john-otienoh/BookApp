@@ -8,6 +8,11 @@ class UserBook < ApplicationRecord
   def return
     update(returned_at: Time.current)
   end
+  def returned?
+    returned_at.present?
+  end
+
+  # Check if the book is currently borrowed
   def borrowed?
     borrowed_at.present? && returned_at.nil?
   end

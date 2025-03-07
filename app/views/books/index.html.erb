@@ -1,31 +1,18 @@
-<nav class="navbar">
-  <div class="nav-right">
-    <li><%= link_to "Home", root_path %></li>
-    <li><%= link_to "Add Book", new_book_path %></li>
-    <% if authenticated? %>
-      <li><%= button_to "Log out", session_path, method: :delete if authenticated? %></li>
-    <% else %>
-      <li><%= link_to "Log In", login_path %></li>
-    <% end %>
-  </div>
-</nav>
+<h1 class="text-center">Welcome, <%= current_user.username if authenticated? %> to Book Zone.</h1>
 
-<center style="margin-top: 25px;">
-  <h1>Welcome, <%= current_user.username if authenticated? %> to Book Zone</h1>
-</center>
-
-<div class="section-2">
-  <h2>Our Book Catalogue</h2>
-  <div class="gallery">
-    <% @books.each do |book| %>
-      <%= link_to book, class: 'whole-link' do %>
-        <div class="image-holder">
-          <%= image_tag 'bl2.png', alt: 'Logo', class: 'logo' %>
-          <div class="desc">
-            <%= book.title %><br>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-</div>
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Book Name</th>
+      <th scope="col">Book Author</th>
+    </tr>
+  </thead>
+  <% @books.each do |book| %>
+    <tbody>
+      <tr>
+        <td><%= link_to book.title, book, class:"text-decoration-none"%></td>
+        <td><%= link_to book.author, book, class:"text-decoration-none" %></td>
+      </tr>
+    </tbody>
+  <% end %>
+</table>

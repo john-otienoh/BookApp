@@ -1,13 +1,26 @@
 <%= form_with model: book do |form| %>
-  <div>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+  <% if book.errors.any? %> <!-- Use <% %> for the if condition -->
+    <div id="error_explanation">
+      <h2><%= pluralize(book.errors.count, 'error') %> prohibited this book from being saved:</h2>
+      <ul>
+        <% book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
-  <div>
-    <%= form.label :author %>
-    <%= form.text_field :author %>
+
+  <div class="mb-3">
+    <%= form.label :author, class: "form-label" %>
+    <%= form.text_field :author, class: "form-control" %>
   </div>
+
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

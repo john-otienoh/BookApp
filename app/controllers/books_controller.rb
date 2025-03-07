@@ -22,16 +22,16 @@ class BooksController < ApplicationController
     end
   end
   def return
-     if @book.return(current_user)
+    if @book.return(current_user)
       redirect_to @book, notice: "Book returned successfully."
     else
       redirect_to @book, alert: "Unable to return the book."
-    # @user = current_user
-    # @user_book = @book.user_books.find_by(user: @user, returned_at: nil)
-    # if @user_book&.return
-    #   redirect_to @book, notice: "Book returned successfully."
-    # else
-    #   redirect_to @book, alert: "No borrowed book found to return."
+      # @user = current_user
+      # @user_book = @book.user_books.find_by(user: @user, returned_at: nil)
+      # if @user_book&.return
+      #   redirect_to @book, notice: "Book returned successfully."
+      # else
+      #   redirect_to @book, alert: "No borrowed book found to return."
     end
   end
   def new
@@ -72,5 +72,4 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:title, :author)
     end
-   
 end

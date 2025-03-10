@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -10,15 +12,17 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
-  get "/books", to: "books#index"
-  post "/books", to: "books#create"
-  get "/books/:id", to: "books#show"
-  get "/books/new", to: "books#new"
-  get "/books/:id/edit", to: "books#edit"
-  patch "/books/:id", to: "books#update"
-  put "/books/:id", to: "books#update"
-  delete "/books/:id", to: "books#destroy"
+  root "books#index"
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
 
-  resources :books
+  resources :books do
+    member do
+      post :borrow
+      post :return
+    end
+  end
+  get "signup", to: "registration#new"
+  post "signup", to: "registration#create"
 end

@@ -1,6 +1,6 @@
 <%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
 <%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
-
+<h1 class="font-bold text-4xl">Log In</h1>
 <%= form_with url: session_path do |form| %>
 
   <div class="mb-3">
@@ -17,6 +17,8 @@
     <%= form.submit "Sign in", class:"btn btn-primary" %>
   </div>
 <% end %>
-<br>
 
-<%= link_to "Forgot password?" %>
+<div class="mt-4 text-sm text-gray-500 sm:mt-0">
+  <%= link_to "Forgot password?", new_password_path, class:"text-gray-700 underline"%>
+  <p>Don't have an account? <%= link_to "Sign Up", new_registration_path, class:"text-gray-700 underline"%></p>
+</div>

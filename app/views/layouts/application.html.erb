@@ -48,7 +48,7 @@
             </ul>
             <span class="navbar-text">
               <% if authenticated? %>
-                Hello there
+                Hello there <%= @user.email_address %>
               <% end %>
             </span>
           </div>

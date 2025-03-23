@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
-  allow_unauthenticated_access only: %i[ index show new edit update destroy ]
+  allow_unauthenticated_access only: %i[ index show new edit update destroy search ]
 
   def index
     @books = Book.all
@@ -14,6 +14,18 @@ class BooksController < ApplicationController
     @book = Book.new
   end
 
+  def search
+    if params[:search].blank?
+      redirect_to books_path
+      flash.now[:alert] = "Empty field!"
+    else
+      @parameter = params[:search].downcase
+      @results = Book.all.where("lower(title) LIKE ? OR lower(author) LIKE ?", "%#{@parameter}%", "%#{@parameter}%")
+      # if @results.empty?
+      #   flash.now[:notice] = ""
+      # end
+    end
+  end
   def create
     @book = Book.new(book_params)
     if @book.save

@@ -24,6 +24,7 @@
   </head>
 
   <body>
+    
     <div class="container">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -43,14 +44,18 @@
                   <%= button_to "Log out", session_path, method: :delete, class:"btn btn-primary" if authenticated? %>
               </li>
               <li class="nav-item">
-                <%= link_to "Login", new_session_path, class:"btn btn-primary" unless authenticated? %>
+                <%= link_to "Login", new_session_path, class:"nav-link" unless authenticated? %>
               </li>
             </ul>
-            <span class="navbar-text">
-              <% if authenticated? %>
-                Hello there <%= @user.email_address %>
-              <% end %>
-            </span>
+            <%= form_tag(search_book_path, :method => "get", class: 'd-flex', role:"search") do %>           
+              <%= search_field_tag :search, params[:search], class:"form-control me-2", placeholder:"Search by Book Name or Author."%>
+              <%= submit_tag 'Search', class: "btn btn-outline-success" %>
+            <% end %>
+            <%# <span class="navbar-text"> %>
+              <%# <% if authenticated? %> 
+                <%# Hello there <%= @user.email_address %> 
+              <%# <% end %> 
+            <%# </span> %>
           </div>
         </div>
       </nav>
